@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="main.StoreOrder" table="STOREORDER">
+<id column="ID" name="id" type="long" >
+<generator class="increment" />
+</id>
+
+       <property name="amount" type="double">
+          <column name="AMOUNT" />
+      </property>
+      <property name="storeName" type="java.lang.String">
+          <column name="STORENAME" />
+      </property>
+            <property name="productName" type="java.lang.String">
+          <column name="PRODUCTNAME" />
+      </property>
+                  <property name="country" type="java.lang.String">
+          <column name="COUNTRY" />
+      </property>
+            <property name="numberOfUnits" type="long">
+          <column name="NUMBEROFUNITS" />
+      </property>
+  <property name="orderDate" type="date">
+   <column name="ORDERDATE" />
+   </property>
+</class>
+</hibernate-mapping>

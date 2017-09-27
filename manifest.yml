@@ -1,0 +1,6 @@
+applications:
+   - name: storemanagerwlp
+     random-route: true
+     path: dist/StoreManager.war
+     memory: 512M
+     instances: 1
