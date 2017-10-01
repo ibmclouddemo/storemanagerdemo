@@ -28,37 +28,61 @@ public class ApiRest extends javax.ws.rs.core.Application {
     @Produces("application/json")
     @Path ("data/sales_expenses")
     public Response getJson() {
-        JsonObject data = new JsonObject();
+        String noDB = System.getenv("DATABASE_CONNECTION_USE_SAMPLE");
+        if (noDB != null && noDB.equals("yes")) {
+            
+            String sample = "{\"data\":\"[['Month', 'Sales', 'Expenses'],['01',0.0,0.0],['02',0.0,940.0],['03',200.0,0.0],['04',0.0,30.0],['05',0.0,0.0],['06',1000.0,70.0],['07',0.0,0.0],['08',200.0,10.0],['09',0.0,250.0],['10',600.0,0.0],['11',0.0,0.0],['12',400.0,0.0]]\"}";
+            return Response.ok(sample, MediaType.APPLICATION_JSON).build();
+        }
+        else {
+            JsonObject data = new JsonObject();
+            
+            List<StoreOrder> orders = StoreManagerServer.getInstance().getAllOrders();
+            List<StoreExpense> expenses = StoreManagerServer.getInstance().getAllExpenses();
+            data.addProperty("data", getDataForSalesAndExpenses (orders, expenses));        
 
-        List<StoreOrder> orders = StoreManagerServer.getInstance().getAllOrders();
-        List<StoreExpense> expenses = StoreManagerServer.getInstance().getAllExpenses();
-        data.addProperty("data", getDataForSalesAndExpenses (orders, expenses));        
-
-        return Response.ok(data.toString(), MediaType.APPLICATION_JSON).build();
+            return Response.ok(data.toString(), MediaType.APPLICATION_JSON).build();
+        }
     }
     
     @GET
     @Produces("application/json")
     @Path ("data/sales_by_country")
     public Response getSalesByCountry() {
-        JsonObject data = new JsonObject();
+        
+        String noDB = System.getenv("DATABASE_CONNECTION_USE_SAMPLE");
+        if (noDB != null && noDB.equals("yes")) {
+            String sample = "{\"data\":\"[['Country', 'Total Sale'],['France',1600.0],['USA',400.0],['UK',400.0]]\"}";
+            return Response.ok(sample, MediaType.APPLICATION_JSON).build();
+        }
+        else {
+            JsonObject data = new JsonObject();
 
-        List<StoreOrder> orders = StoreManagerServer.getInstance().getAllOrders();
-        data.addProperty("data", getDataForSalesByCountry(orders));        
+            List<StoreOrder> orders = StoreManagerServer.getInstance().getAllOrders();
+            data.addProperty("data", getDataForSalesByCountry(orders));        
 
-        return Response.ok(data.toString(), MediaType.APPLICATION_JSON).build();
+            return Response.ok(data.toString(), MediaType.APPLICATION_JSON).build();
+        }
     }
     
     @GET
     @Produces("application/json")
     @Path ("data/sales_by_product")
     public Response getSalesByProduct() {
-        JsonObject data = new JsonObject();
-
-        List<StoreOrder> orders = StoreManagerServer.getInstance().getAllOrders();
-        data.addProperty("data", getDataForSalesByProduct(orders));        
-
-        return Response.ok(data.toString(), MediaType.APPLICATION_JSON).build();
+        
+        String noDB = System.getenv("DATABASE_CONNECTION_USE_SAMPLE");
+        if (noDB != null && noDB.equals("yes")) {
+            String sample = "{\"data\":\"[['Product', 'Total Sale'],['Cessna 152',400.0],['Cessna 172',1000.0],['Cessna 182',1000.0],]\"}";
+            return Response.ok(sample, MediaType.APPLICATION_JSON).build();
+        }
+        else {
+            JsonObject data = new JsonObject();
+    
+            List<StoreOrder> orders = StoreManagerServer.getInstance().getAllOrders();
+            data.addProperty("data", getDataForSalesByProduct(orders));        
+    
+            return Response.ok(data.toString(), MediaType.APPLICATION_JSON).build();
+        }
     }
     
     //Build data for google chart
@@ -191,8 +215,15 @@ public class ApiRest extends javax.ws.rs.core.Application {
     @Path ("version")
     public Response getVersion() {
         
+        String versionNumber = System.getenv("VersionNumber");
+        
         JsonObject version = new JsonObject();
-        version.addProperty("version", "1.1");
+        if (versionNumber == null) {
+            version.addProperty("version", "1.0");
+        }
+        else {
+            version.addProperty("version", versionNumber);
+        }
 
         return Response.ok(version.toString(), MediaType.APPLICATION_JSON).build();
     }
