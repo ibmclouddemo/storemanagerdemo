@@ -21,7 +21,7 @@ public class StoreManagerServer {
     
     static private StoreManagerServer instance;
 
-    
+     
     //----------------------------------------------------------------------------------------------
     /**
      * Start the server instance.
