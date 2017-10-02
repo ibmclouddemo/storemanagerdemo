@@ -29,7 +29,7 @@ public class ApiRest extends javax.ws.rs.core.Application {
     @Path ("data/sales_expenses")
     public Response getJson() {
         String connectionURL = System.getenv("DATABASE_CONNECTION_URL");
-        if (connectionURL == null) {
+        if (connectionURL == null || connectionURL.isEmpty()) {
             
             String sample = "{\"data\":\"[['Month', 'Sales', 'Expenses'],['01',0.0,0.0],['02',0.0,940.0],['03',200.0,0.0],['04',0.0,30.0],['05',0.0,0.0],['06',1000.0,70.0],['07',0.0,0.0],['08',200.0,10.0],['09',0.0,250.0],['10',600.0,0.0],['11',0.0,0.0],['12',400.0,0.0]]\"}";
             return Response.ok(sample, MediaType.APPLICATION_JSON).build();
@@ -51,7 +51,7 @@ public class ApiRest extends javax.ws.rs.core.Application {
     public Response getSalesByCountry() {
         
         String connectionURL = System.getenv("DATABASE_CONNECTION_URL");
-        if (connectionURL == null) {
+        if (connectionURL == null || connectionURL.isEmpty()) {
             String sample = "{\"data\":\"[['Country', 'Total Sale'],['France',1600.0],['USA',400.0],['UK',400.0]]\"}";
             return Response.ok(sample, MediaType.APPLICATION_JSON).build();
         }
@@ -71,7 +71,7 @@ public class ApiRest extends javax.ws.rs.core.Application {
     public Response getSalesByProduct() {
         
         String connectionURL = System.getenv("DATABASE_CONNECTION_URL");
-        if (connectionURL == null) {
+        if (connectionURL == null || connectionURL.isEmpty()) {
             String sample = "{\"data\":\"[['Product', 'Total Sale'],['Cessna 152',400.0],['Cessna 172',1000.0],['Cessna 182',1000.0],]\"}";
             return Response.ok(sample, MediaType.APPLICATION_JSON).build();
         }
