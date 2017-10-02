@@ -229,7 +229,7 @@ public class ApiRest extends javax.ws.rs.core.Application {
     }
     
     @GET
-    @Produces("application/json")
+    @Produces("text/plain")
     @Path ("dbtest")
     public Response getDBTest() {
         
@@ -241,8 +241,8 @@ public class ApiRest extends javax.ws.rs.core.Application {
         else if (connectionURL.isEmpty()) {
             connectionURL = "NOT SET - EMPTY";
         }
-        else if (connectionURL.equals(" ")) {
-            connectionURL = "NOT SET - EMPTY "+connectionURL.length();
+        else {
+            connectionURL = connectionURL.length()+"";
         }
         return Response.ok(connectionURL, MediaType.TEXT_PLAIN).build();
     }
