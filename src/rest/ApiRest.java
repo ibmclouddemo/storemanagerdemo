@@ -234,7 +234,17 @@ public class ApiRest extends javax.ws.rs.core.Application {
     public Response getDBTest() {
         
         String connectionURL = System.getenv("DATABASE_CONNECTION_URL");
-        return Response.ok(connectionURL, MediaType.APPLICATION_JSON).build();
+        
+        if (connectionURL == null) {
+            connectionURL = "NOT SET";
+        }
+        else if (connectionURL.isEmpty()) {
+            connectionURL = "NOT SET - EMPTY";
+        }
+        else if (connectionURL.equals(" ")) {
+            connectionURL = "NOT SET - EMPTY "+connectionURL.length();
+        }
+        return Response.ok(connectionURL, MediaType.TEXT_PLAIN).build();
     }
 
 }
